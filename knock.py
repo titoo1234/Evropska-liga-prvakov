@@ -47,6 +47,8 @@ def test_tekme(link):
     prejsni1 = []
     prejsni2 = []
     for tekma in tabela_tekm:
+        # print(tekma)
+
         stadion = re.findall(r'itemprop="name address.+</a>,',tekma)
         
         datum = re.findall(r'fdate">.+<span',tekma)
@@ -57,10 +59,16 @@ def test_tekme(link):
         except:
             pass
         rez = re.findall(r'fscore".+</th><th',tekma)[0][8:11]
-        domaci,domaci_uradno = re.findall(r'"homeTeam".+</a> <span',tekma)[0].split('title="')[1][:-10].split('">')
+        try:
+            domaci,domaci_uradno = re.findall(r'"homeTeam".+</a> <span',tekma)[0].split('title="')[1][:-10].split('">')
+        except:
+            domaci,domaci_uradno=[0,0]
         # ads = domaci
         # domaci = re.findall(r'"homeTeam".+</a> <span',tekma)[0].split('<')[-3].split('>')[-1]
-        gosti,gosti_uradno = re.findall(r'awayTeam.+</a></span></th></tr><tr class="fgoals">',tekma)[0].split('</a></span></th></tr><tr class="fgoals"')[0].split('title="')[-1].split('">')
+        try:
+            gosti,gosti_uradno = re.findall(r'awayTeam.+</a></span></th></tr><tr class="fgoals">',tekma)[0].split('title="')[1]
+        except:
+            gosti,gosti_uradno = [0,0]
         stadion = stadion[0].split('title=')[1].split('"')[1]
         if '<td class="fhgoal"></td>' in tekma:
             goli_d = []
@@ -113,8 +121,8 @@ def test_tekme(link):
     
     return urejena_tabela_tekm
 
-a = test_tekme("https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_group_stage")
-# b = test_tekme('https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_knockout_phase')
+# a = test_tekme("https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_group_stage")
+b = test_tekme('https://en.wikipedia.org/wiki/2018%E2%80%9319_UEFA_Champions_League_knockout_phase')
 
 # for el in a:
 #     print(el)
