@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import requests
 import re
+import json
 
 def poberi_ekipe(link):
     """
     pobere vse ekipe z karticami in jih shrani v tabelo (zaenkrat)
     """
+    
     req = requests.get(link).text
     #ekipe = re.findall(r'<th scope="col" width="28"><a href="/wiki/.+" title=".+">.+', req)
     ekipe = re.findall(r'<th scope="row" style="text-align: left; white-space:nowrap;font-weight: normal;background-color:.+;"><span class="flagicon"><a href=".+" title=".+"><img alt=".+" src=".+" decoding="async" width=".+" height=".+" class="thumbborder" srcset=".+" data-file-width=".+" data-file-height=".+" /></a></span> <a href="/wiki/.+" title=".+">.+</a>', req)
@@ -46,6 +48,7 @@ def test_tekme(link):
     urejena_tabela_tekm = []
     prejsni1 = []
     prejsni2 = []
+    slovar = dict()   
     for tekma in tabela_tekm:
         stadion = re.findall(r'itemprop="name address.+</a>,',tekma)
         
@@ -108,17 +111,24 @@ def test_tekme(link):
             min2 = []
         else:
             prejsni2 = min2
-            
-        urejena_tabela_tekm.append((min1,min2,goli_d,goli_g,datum,domaci,domaci_uradno,rez,gosti,gosti_uradno,stadion))
-    
+        slovar['domaci'] = domaci
+        slovar['domaci_uradno'] = domaci_uradno
+        slovar['gosti'] = gosti
+        slovar['gosti_uradnno'] = gosti_uradno
+        slovar['rezultat'] = rez
+        slovar['stadion'] = stadion
+        slovar['datum'] = datum
+        # urejena_tabela_tekm.append((min1,min2,goli_d,goli_g,datum,domaci,domaci_uradno,rez,gosti,gosti_uradno,stadion))
+        urejena_tabela_tekm.append(slovar)
     return urejena_tabela_tekm
-
-a = test_tekme("https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_group_stage")
-# b = test_tekme('https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_knockout_phase')
-
-# for el in a:
-#     print(el)
-#     
-# print(len(a))
     
+
+
+def pisi_na_datoteko(tabela):
+    with open('data.json', 'w') as jsonfile:
+        json.dump(tabela, jsonfile)
+if __name__ == '__main__':
+    a = test_tekme("https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_group_stage")
+    # b = test_tekme('https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_knockout_phase')
+    pisi_na_datoteko(a)
         
