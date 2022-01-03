@@ -3,6 +3,7 @@ import requests
 import re
 import json
 
+
 def poberi_ekipe(link):
     """
     pobere vse ekipe z karticami in jih shrani v tabelo (zaenkrat)
@@ -130,5 +131,5 @@ def pisi_na_datoteko(tabela):
 if __name__ == '__main__':
     a = test_tekme("https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_group_stage")
     # b = test_tekme('https://en.wikipedia.org/wiki/2019%E2%80%9320_UEFA_Champions_League_knockout_phase')
-    pisi_na_datoteko(a)
+    #pisi_na_datoteko(a)
         

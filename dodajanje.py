@@ -97,6 +97,22 @@ def dodaj_igra_igralec(conn, slovar):
         
     ]
     conn.execute(sql, parametri)
+    
+def dodaj_zadetek(conn, slovar):
+    sql = '''
+        INSERT INTO zadetek (tekma,klub,igralec,minuta)
+
+        VALUES
+        (?,?,?,?)
+    '''
+    parametri = [
+        tekma_id,
+        klub_id,
+        igralec_id,
+        minuta
+        
+    ]
+    conn.execute(sql, parametri) 
 
 def dodaj_vlogo(conn, film_id, oseba_id, tip, mesto):
     sql = '''
