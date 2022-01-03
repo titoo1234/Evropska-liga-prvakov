@@ -119,7 +119,7 @@ def test_tekme(link):
         slovar['stadion'] = stadion
         slovar['datum'] = datum
         # urejena_tabela_tekm.append((min1,min2,goli_d,goli_g,datum,domaci,domaci_uradno,rez,gosti,gosti_uradno,stadion))
-        urejena_tabela_tekm.append(slovar)
+        urejena_tabela_tekm.append(slovar.copy())
     return urejena_tabela_tekm
     
 
