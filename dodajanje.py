@@ -41,22 +41,26 @@ def dodaj_klub(conn, ime_kluba):
         conn.execute(sql, parametri)
     
     
-def dodaj_ekipo(conn, slovar):
+def dodaj_ekipo(conn, sezona,klub,igralec):
     poizvedba = '''
     SELECT id from igralec WHERE ime = ?
     '''
-    parametri1 = [slovar['igralec']]
+    parametri1 = igralec
     igralec_id = conn.execute(poizvedba, parametri1)
+    poizvedba = '''
+    SELECT id from klub WHERE ime = ?
+    '''
+    parametri1 = klub
+    klub_id = conn.execute(poizvedba, parametri1)
     sql = '''
-        INSERT INTO ekipa (klub,igralec)
+        INSERT INTO ekipa (sezona,klub,igralec)
 
         VALUES
-        (?,?)
+        (?,?,?)
     '''
     parametri = [
-        slovar['domaci'],
-        # slovar['gosti']
-        # slovar['igralec']#tukaj morma najti igralca in njegov id
+        sezona,
+        klub_id,
         igralec_id
     ]
     conn.execute(sql, parametri)
