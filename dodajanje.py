@@ -11,7 +11,6 @@ def dodaj_igralca(conn, oseba):
                  SELECT ime from igralec;
     ''')
     igralci = cur.fetchall()
-    print(igralci)
     if (oseba,) not in igralci:
         sql = '''
             INSERT INTO igralec
@@ -23,18 +22,23 @@ def dodaj_igralca(conn, oseba):
             oseba
         ]
         cur.execute(sql, parametri)
-def dodaj_klub(conn, slovar):
+def dodaj_klub(conn, ime_kluba):
+    cur = conn.cursor()
+    cur.execute('''
+                 SELECT ime from klub;
+    ''')
+    imena_klubov = cur.fetchall()
     sql = '''
         INSERT INTO klub
-        (ime,uradno)
+        (ime)
         VALUES
-        (?,?)
+        (?)
     '''
     parametri = [
-        slovar['domaci'],
-        slovar['domaci_uradno']
+        ime_kluba
     ]
-    conn.execute(sql, parametri)
+    if (ime_kluba,) not in imena_klubov:
+        conn.execute(sql, parametri)
     
     
 def dodaj_ekipo(conn, slovar):
@@ -56,17 +60,21 @@ def dodaj_ekipo(conn, slovar):
         igralec_id
     ]
     conn.execute(sql, parametri)
-def dodaj_stadion(conn, slovar):
+def dodaj_stadion(conn, ime_stadiona):
     sql = '''
-        INSERT INTO stadion (klub,igralec)
+        INSERT INTO stadion (ime)
 
         VALUES
         (?)
     '''
+    cur = conn.cursor()
+    cur.execute("SELECT ime FROM stadion;")
+    stadioni = cur.fetchall()
     parametri = [
-        slovar['stadion'],
+        ime_stadiona
     ]
-    conn.execute(sql, parametri)
+    if (ime_stadiona,) not in stadioni:
+        conn.execute(sql, parametri)
 def dodaj_tekmo(conn, slovar):
     poizvedba = '''
     SELECT id from stadion WHERE ime = ?
