@@ -1,18 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar  8 14:31:36 2022
 
-@author: Tit
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar  7 21:43:55 2022
-
-@author: Tit
-"""
-
-# -*- coding: utf-8 -*-
 import requests
 import re
 
@@ -236,7 +222,7 @@ def poberi_leta(od):
         knock = test_tekme_knock(link2)
         slovar[leto] = [group,knock]
     return slovar
-sl = poberi_leta(17)
+# sl = poberi_leta(17)
         
     
         

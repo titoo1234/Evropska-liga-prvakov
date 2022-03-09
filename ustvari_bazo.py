@@ -1,7 +1,7 @@
 
 import sqlite3 as dbapi
 def ustvari_bazo():
-    ime_db = 'vaja_seminarska_v3.db'
+    ime_db = 'vaja_seminarska_v4.db'
     ime_skripte = 'ustvari_bazo_v2.txt'
     pov = dbapi.connect(ime_db)
     cur = pov.cursor()
