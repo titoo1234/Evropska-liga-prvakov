@@ -57,22 +57,32 @@ def goli_igralec(conn,igralec):
     podatki = curr.fetchall()
     return podatki
 
-# POPRAVI, V    SQL DELA TUKAJ NEVEM ZAKAJ NE
-# def tekme_v_eni_sezoni(conn,sezona):
-#     curr = conn.cursor()
-#     poizvedba = '''SELECT sezona,stadion,tip,kl1.ime,kl2.ime
-#                   FROM tekma
-#                        JOIN
-#                        igra_klub AS k1 ON tekma.id = k1.tekma
-#                        JOIN
-#                        igra_klub AS k2 ON (tekma.id = k2.tekma AND 
-#                                            k1.klub <> k2.klub) 
-#                        join klub as kl1 on (k1.klub = kl1.id)
-#                        join klub as kl2 on (k2.klub = kl2.id)
-#                  WHERE tekma.sezona = ? and k1.tip = 'domaci';'''
-#     curr.execute(poizvedba,[sezona])
-#     podatki = curr.fetchall()
-#     return podatki
+#SQL SE NE BUNI ČE NISI ČIST NATANČEN ZA STOLPCE
+
+def tekme_v_eni_sezoni(conn,sezona):
+    curr = conn.cursor()
+    poizvedba = '''SELECT tekma.sezona,
+       stadion.ime,
+       tekma.tip,
+       kl1.ime,
+       kl2.ime
+  FROM tekma
+       JOIN
+       igra_klub AS k1 ON tekma.id = k1.tekma
+       JOIN
+       igra_klub AS k2 ON (tekma.id = k2.tekma AND 
+                           k1.klub <> k2.klub) 
+       JOIN
+       klub AS kl1 ON (k1.klub = kl1.id) 
+       JOIN
+       klub AS kl2 ON (k2.klub = kl2.id) 
+       JOIN
+       stadion ON tekma.stadion = stadion.id
+ WHERE tekma.sezona = ? AND 
+       k1.tip = 'domaci';'''
+    curr.execute(poizvedba,[sezona])
+    podatki = curr.fetchall()
+    return podatki
     
 
     

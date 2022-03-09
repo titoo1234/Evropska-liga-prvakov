@@ -11,8 +11,9 @@ conn = dbapi.connect('vaja_seminarska_v2.db')
 
 
 
-#TESTIRI NASLEDNJO, NEKAJ NE DELA
-# tekme = tekme_v_eni_sezoni(conn, '2018/19')
+#DELA, TREBA BIT V PYTHONU BOL NATANČEN KER STOLPEC ŽELIŠ
+# tekme = tekme_v_eni_sezoni(conn, '2017/18')
+# print(len(tekme))
 
 conn.close()
 
