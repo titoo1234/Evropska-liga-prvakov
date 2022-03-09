@@ -1,10 +1,10 @@
 from pridobivanje_podatkov import *
 from dodajanje import *
-conn = dbapi.connect('vaja_seminarska_v4.db')
+conn = dbapi.connect('vaja_seminarska_v2.db')
 slovar = poberi_leta(17)
 skupine = "ABCDEFGH"
-boji = ["OF"] * 16 + ["CF"] * 8 + ["PF"] * 4 + ["F"]
-boji19 = ["OF"] * 16 + ["CF"] * 4 + ["PF"] * 2 + ["F"]
+boji = ["OF"] * 16 + ["CF"] * 8 + ["PF"] * 4 + ["FINALE"]
+boji19 = ["OF"] * 16 + ["CF"] * 4 + ["PF"] * 2 + ["FINALE"]
 for leto in slovar:
     skupinski_del,izlocilni_boji = slovar[leto]
     stevec = 0

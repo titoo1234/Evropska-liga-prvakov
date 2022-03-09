@@ -1,5 +1,23 @@
 from model import *
 import sqlite3 as dbapi
-conn = dbapi.connect('vaja_seminarska_v4.db')
+conn = dbapi.connect('vaja_seminarska_v2.db')
 
-tab= vse_ekipe_sezona(conn,"2017/18")
+
+#TO DELA
+# tab= vse_ekipe_sezona(conn,"2017/18")
+# tab = vse_ekipe(conn) 
+# tab = najbolsi_strelci_vsa_leta(conn)
+# igralec = goli_igralec(conn,'Haris Seferovic')
+
+
+
+#TESTIRI NASLEDNJO, NEKAJ NE DELA
+# tekme = tekme_v_eni_sezoni(conn, '2018/19')
+
+conn.close()
+
+
+
+
+
+
