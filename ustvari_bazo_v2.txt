@@ -25,6 +25,7 @@ CREATE TABLE tekma (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sezona TEXT CHECK (sezona LIKE '____/__'),
     datum DATE NOT NULL,
+    rezultat TEXT,
     stadion INTEGER REFERENCES stadion (id),
     tip TEXT NOT NULL,
     UNIQUE (id, sezona) -- da se lahko sklicujemo na ta dva stolpca

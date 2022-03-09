@@ -4,16 +4,22 @@ conn = dbapi.connect('vaja_seminarska_v2.db')
 
 
 #TO DELA
-# tab= vse_ekipe_sezona(conn,"2017/18")
-# tab = vse_ekipe(conn) 
-# tab = najbolsi_strelci_vsa_leta(conn)
-# igralec = goli_igralec(conn,'Haris Seferovic')
+#tab= Klub.vsi_klubi_sezona(conn,"2017/18")
 
-
+#tab = Klub.vsi_klubi(conn) 
+#tab = Igralec.najbolsi_strelci_vsa_leta(conn, 10)
+# test = Igralec(22,'Lionel Messi')
+# tab = test.koliko_golov(conn)
+# 
+# for el in tab:
+#     print(el)
+#     
+# print(len(tab))
 
 #DELA, TREBA BIT V PYTHONU BOL NATANČEN KER STOLPEC ŽELIŠ
-# tekme = tekme_v_eni_sezoni(conn, '2017/18')
-# print(len(tekme))
+tekme = Tekma.tekme_v_eni_sezoni(conn, '2017/18')
+for tekma in tekme:
+    print(tekma)
 
 conn.close()
 

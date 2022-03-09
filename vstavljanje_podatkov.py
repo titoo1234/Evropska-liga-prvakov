@@ -22,7 +22,7 @@ for leto in slovar:
             dodaj_igralca(conn, igralec)
             dodaj_ekipo(conn, leto, tekma[9], igralec)
             #dodamo ga v bazo
-        dodaj_tekmo(conn, leto, tekma[4], tekma[10], skupine[stevec // 12])
+        dodaj_tekmo(conn, leto, tekma[4], tekma[7], tekma[10], skupine[stevec // 12])
         dodaj_igra_klub(conn, leto, tekma[4], tekma[6], 'domaci', tekma[10])
         dodaj_igra_klub(conn, leto, tekma[4], tekma[9], 'gostje', tekma[10])
         stevec += 1
@@ -48,7 +48,7 @@ for leto in slovar:
             igralci2 = tekma[3]
             for igralec in igralci2:
                 dodaj_igralca(conn, igralec)
-            dodaj_tekmo(conn, leto, tekma[4], tekma[10], boji[stevec])
+            dodaj_tekmo(conn, leto, tekma[4], tekma[7], tekma[10], boji[stevec])
             dodaj_igra_klub(conn, leto, tekma[4], tekma[6], 'domaci', tekma[10])
             dodaj_igra_klub(conn, leto, tekma[4], tekma[9], 'gostje', tekma[10])
             stevec += 1
@@ -71,7 +71,7 @@ for leto in slovar:
             igralci2 = tekma[3]
             for igralec in igralci2:
                 dodaj_igralca(conn, igralec)
-            dodaj_tekmo(conn, leto, tekma[4], tekma[10], boji19[stevec])
+            dodaj_tekmo(conn, leto, tekma[4], tekma[7], tekma[10], boji19[stevec])
             dodaj_igra_klub(conn, leto, tekma[4], tekma[6], 'domaci', tekma[10])
             dodaj_igra_klub(conn, leto, tekma[4], tekma[9], 'gostje', tekma[10])
             stevec += 1

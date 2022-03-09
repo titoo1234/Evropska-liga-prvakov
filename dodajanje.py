@@ -105,18 +105,19 @@ def dodaj_stadion(conn, ime_stadiona):
     if (ime_stadiona,) not in stadioni:
         conn.execute(sql, parametri)
         
-def dodaj_tekmo(conn, sezona, datum, stadion, skupina):
+def dodaj_tekmo(conn, sezona, datum, rezultat, stadion, skupina):
     stadion_id = najdi_stadion_id(conn, stadion)
     sezona = "20"+str(sezona)+"/"+str(sezona+1)
     sql = '''
-        INSERT INTO tekma (sezona,datum,stadion, tip)
+        INSERT INTO tekma (sezona,datum,rezultat,stadion, tip)
 
         VALUES
-        (?,?,?,?)
+        (?,?,?,?,?)
     '''
     parametri = [
         sezona,
         datum,
+        rezultat,
         stadion_id,
         skupina
     ]
