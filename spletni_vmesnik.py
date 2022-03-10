@@ -19,19 +19,20 @@ def static(filename):
 @bottle.get('/klub/<ime>')
 def klub(ime):
 
-    return bottle.template('klub.html',ime)
+    return bottle.template('klub.html',ime = ime)
 
     
 
 @bottle.get('/<ime>')
 def igralec(ime):
-    try:
-        url = poisci_url(ime)
-        ide = najdi_igralec_id(conn, ime)
-        objekt = model.Igralec(ide, ime)
-        return bottle.template('igralec.html', skupno=objekt.koliko_golov_skupno(conn),nasezono=objekt.koliko_golov(conn), ime=ime,url=url)
-    except:
-        return naslovna()
+#     try:
+    url = poisci_url(ime)
+    ide = najdi_igralec_id(conn, ime)
+    objekt = model.Igralec(ide, ime)
+    return bottle.template('igralec.html', skupno=objekt.koliko_golov_skupno(conn),nasezono=objekt.koliko_golov(conn), ime=ime,url=url)
+#     except:
+#         
+#         return naslovna()
     
 @bottle.get('/sezona/<sez1>' + '/<sez2>')
 def sezona(sez1,sez2):
