@@ -1,3 +1,20 @@
 % rebase("osnova_spletnega_vmesnika.html")
+			<table is-fullwidth class="table">
+			
+  <thead>
+    <tr>
+      <th>Igralec</th>
+      <th>Goli</th>
+	  </tr>
+  </thead>
+  <tbody>
+	% for a in podatki:
+	<tr>
+        <td>{{a[0]}}</td>
+		<td>{{a[1]}}</td>
+    % end
+	</tr>
+	</tbody>
+</table>
 Pozdravljeni na začetni strani!
 <p>Kaj želiš?</p>
