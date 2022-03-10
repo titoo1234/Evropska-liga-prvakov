@@ -69,6 +69,12 @@ class Tekma:
         
     def __str__(self):
         return f"{self.sezona}, {self.datum}, {self.tip}, {self.domaci} {self.rezultat} {self.gostje}, {self.stadion}"
+    def zmagovalec_finala(self):
+        '''zgolj za določitev zmagovalca finala'''
+        if self.rezultat[0] < self.rezultat[2]:
+            return self.domaci
+        return self.gostje
+    
     
     @staticmethod
     def tekme_v_eni_sezoni(conn,sezona):
@@ -121,6 +127,20 @@ class Klub:
         for ide, ime in podatki:
             tab.append(Klub(ide, ime))
         return tab
+    
+    @staticmethod
+    def najvec_zadetkov_klubi(conn, koliko):
+        curr = conn.cursor()
+        poizvedba = '''SELECT ime,
+                           count( * ) 
+                      FROM zadetek
+                           JOIN
+                           klub ON klub.id = zadetek.klub
+                     GROUP BY klub.id
+                     ORDER BY COUNT( * ) DESC LIMIT ?;'''
+        curr.execute(poizvedba, [koliko])
+        podatki = curr.fetchall()
+        return podatki
         
     @staticmethod
     def vsi_klubi_sezona(conn, sezona):

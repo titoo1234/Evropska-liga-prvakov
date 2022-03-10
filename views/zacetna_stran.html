@@ -9,10 +9,12 @@
 	  </tr>
   </thead>
   <tbody>
-	% for sezona,igralec in zip(sezone,igralci):
+	% for sezona,igralec,klub in zip(sezone,igralci,klubi):
 	<tr>
-        <td>{{sezona[0]}}</td>
+    
+    <td><a href="/sezona/{{sezona[0]}}">{{sezona[0]}}</a></td>
 		<td><a href="/{{igralec[0]}}">{{igralec[0]}}</a></td>
+    <td><a href="/klub/{{klub[0]}}">{{klub[0]}}</a></td>
     
     % end
 	</tr>

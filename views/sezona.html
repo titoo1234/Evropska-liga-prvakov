@@ -1,0 +1,88 @@
+% rebase("osnova_spletnega_vmesnika.html")
+
+
+
+<h3 class="title is-2">SEZONA {{sezona}}</h3>
+
+
+
+<h4 class="title is-4">Zmagovalec: {{zmagovalec}}</h4>
+
+
+<img src = {{url}} alt = "slika">
+
+
+
+%niz = 'ABCDEFGH'
+%for i in range(8):
+<h3 class="title is-2">EKIPA {{niz[i]}}</h3>
+
+<div style="display:none"></div>
+<table is-fullwidth class="table">
+<thead>
+    <tr>
+      <th>Datum</th>
+      <th>Stadion</th>
+      <th>Domači</th>
+      <th>Rezultat</th>
+      <th>Gostje</th>
+
+	  </tr>
+  </thead>
+  <tbody>
+	% for tekma in tekme:
+	<tr>
+    %if tekma.tip == niz[i]:
+
+    <td>{{tekma.datum}}</td>
+    <td>{{tekma.stadion}}</td>
+    <td>{{tekma.domaci}}</td>
+    <td>{{tekma.rezultat}}</td>
+    <td>{{tekma.gostje}}</td>
+    %end
+    % end  
+	</tr>
+  
+	</tbody>
+</table>
+</div>
+%end
+
+%boji = ["OF","CF","PF","FINALE"]
+%zapis = ["OSMINA FINALA","ČETRTFINALE","POLFINALE","FINALE"]
+%for j in range(4):
+<h3 class="title is-2"> {{zapis[j]}}</h3>
+
+<div style="display:none"></div>
+<table is-fullwidth class="table">
+<thead>
+    <tr>
+      <th>Datum</th>
+      <th>Stadion</th>
+      <th>Domači</th>
+      <th>Rezultat</th>
+      <th>Gostje</th>
+
+	  </tr>
+  </thead>
+  <tbody>
+	% for tekma in tekme:
+	<tr>
+    %if tekma.tip == boji[j]:
+
+    <td>{{tekma.datum}}</td>
+    <td>{{tekma.stadion}}</td>
+    <td>{{tekma.domaci}}</td>
+    <td>{{tekma.rezultat}}</td>
+    <td>{{tekma.gostje}}</td>
+    %end
+    % end  
+	</tr>
+  
+	</tbody>
+</table>
+</div>
+%end
+
+
+
