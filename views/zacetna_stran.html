@@ -3,15 +3,17 @@
 			
   <thead>
     <tr>
+      <th>Sezona</th>
       <th>Igralec</th>
-      <th>Goli</th>
+      <th>Klub</th>
 	  </tr>
   </thead>
   <tbody>
-	% for a in podatki:
+	% for sezona,igralec in zip(sezone,igralci):
 	<tr>
-        <td>{{a[0]}}</td>
-		<td>{{a[1]}}</td>
+        <td>{{sezona[0]}}</td>
+		<td><a href="/{{igralec[0]}}">{{igralec[0]}}</a></td>
+    
     % end
 	</tr>
 	</tbody>

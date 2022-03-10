@@ -1,5 +1,6 @@
 import sqlite3 as dbapi
 
+
 class Igralec:
     def __init__(self, ide, ime):
         self.id = ide
@@ -158,3 +159,11 @@ class Stadion:
 
 
 
+def vse_sezone(conn):
+    curr = conn.cursor()
+    poizvedba = '''SELECT DISTINCT sezona
+                          FROM tekma;'''
+    curr.execute(poizvedba)
+    podatki = curr.fetchall()
+    return podatki
+    
