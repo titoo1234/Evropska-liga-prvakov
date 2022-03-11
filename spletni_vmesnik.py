@@ -7,10 +7,12 @@ conn = dbapi.connect('vaja_seminarska_v2.db')
 
 @bottle.get('/')
 def naslovna():
-    klubi = model.Klub.najvec_zadetkov_klubi(conn, 4)
-    igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 4)
+    vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
+    klubi = vsi_klubi[:4]
+    vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
+    igralci = vsi_igralci[:4]
     vsi = model.Klub.vsi_klubi(conn)
-    return bottle.template('zacetna_stran.html', igralci=igralci, sezone = model.vse_sezone(conn),klubi = klubi,vsi=vsi)
+    return bottle.template('zacetna_stran.html', igralci=igralci, sezone = model.vse_sezone(conn),klubi = klubi,vsi=vsi,vsi_igralci = vsi_igralci,vsi_klubi = vsi_klubi)
 
 
 @bottle.get('/static/<filename:path>')
@@ -19,7 +21,7 @@ def static(filename):
 
 @bottle.get('/klub/<ime>')
 def klub(ime):
-    url = poisci_url(ime)
+    url = poisci_url(ime +' logo')
     stadion = model.Klub.domaci_stadion(conn, ime)
     sezona_gol = model.Klub.koliko_golov(conn, ime)
     vsota = 0
@@ -57,6 +59,8 @@ def iskanje_igralca():
 @bottle.get('/to/se/more/ujemat2')
 def iskanje_kluba():
     prebrano = bottle.request.query.getunicode('ime')
+    prebrano
+    print(prebrano)
     bottle.redirect("/klub/" + prebrano)
 
 
