@@ -1,3 +1,32 @@
 % rebase("osnova_spletnega_vmesnika.html")
 
 <h3 class="title is-2">{{ime}}</h3>
+
+Domači stadion: {{stadion[0][0]}}
+
+<table is-fullwidth class="table">
+			
+    <thead>
+      <tr>
+        <th>Sezona</th>
+        <th>Goli</th>
+        </tr>
+    </thead>
+    <tbody>
+        % for sezona,vsota_golov in goli:
+      <tr>
+      
+      <td><a href="/sezona/{{sezona}}">{{sezona}}</a></td>
+          <td><a href="/sezona/{{sezona}}">{{vsota_golov}}</a></td>
+
+      
+      % end
+	  <tr>
+	  <td>Skupno</td>
+	  <td>{{vsota}}</td>
+      </tr>
+      </tbody>
+  </table>
+
+
+<img src = {{url}} alt = "slika">

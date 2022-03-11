@@ -1,10 +1,6 @@
 % rebase("osnova_spletnega_vmesnika.html")
 
-
-
 <h3 class="title is-2">SEZONA {{sezona}}</h3>
-
-
 
 <h4 class="title is-4">Zmagovalec: {{zmagovalec}}</h4>
 
@@ -12,10 +8,12 @@
 <img src = {{url}} alt = "slika">
 
 
-
 %niz = 'ABCDEFGH'
 %for i in range(8):
-<h3 class="title is-2">EKIPA {{niz[i]}}</h3>
+
+<details>
+
+<summary><h3 class="title is-2">SKUPINA {{niz[i]}}</h3></summary>
 
 <div style="display:none"></div>
 <table is-fullwidth class="table">
@@ -45,13 +43,20 @@
   
 	</tbody>
 </table>
-</div>
+
+</details>
+
+
 %end
 
 %boji = ["OF","CF","PF","FINALE"]
 %zapis = ["OSMINA FINALA","ČETRTFINALE","POLFINALE","FINALE"]
 %for j in range(4):
-<h3 class="title is-2"> {{zapis[j]}}</h3>
+
+
+<details>
+
+<summary><h3 class="title is-2"> {{zapis[j]}}</h3></summary>
 
 <div style="display:none"></div>
 <table is-fullwidth class="table">
@@ -82,7 +87,10 @@
 	</tbody>
 </table>
 </div>
+</details>
+
 %end
+
 
 
 

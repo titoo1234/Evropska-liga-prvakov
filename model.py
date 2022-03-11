@@ -21,8 +21,7 @@ class Igralec:
                        tekma ON tekma.id = zadetek.tekma
                  WHERE ime = ?
                  GROUP BY ime,
-                          sezona
-                 ORDER BY COUNT( * ) DESC;'''
+                          sezona;'''
         curr.execute(poizvedba,[self.ime])
         podatki = curr.fetchall()
         return podatki
@@ -56,6 +55,15 @@ class Igralec:
         podatki = curr.fetchall()
         return podatki
     
+    @staticmethod
+    def vsi_igralci(conn):
+        curr = conn.cursor()
+        poizvedba = '''SELECT ime
+                      FROM igralec;'''
+        curr.execute(poizvedba)
+        podatki = curr.fetchall()
+        return podatki
+    
     
 class Tekma:
     def __init__(self, sezona, datum, stadion, tip, domaci, gostje, rezultat):
@@ -71,7 +79,7 @@ class Tekma:
         return f"{self.sezona}, {self.datum}, {self.tip}, {self.domaci} {self.rezultat} {self.gostje}, {self.stadion}"
     def zmagovalec_finala(self):
         '''zgolj za določitev zmagovalca finala'''
-        if self.rezultat[0] < self.rezultat[2]:
+        if self.rezultat[0] > self.rezultat[2]:
             return self.domaci
         return self.gostje
     
@@ -156,6 +164,42 @@ class Klub:
         for ide, ime in podatki:
             tab.append(Klub(ide,ime))
         return tab
+    
+    @staticmethod
+    def domaci_stadion(conn, ime):
+        curr = conn.cursor()
+        poizvedba = '''SELECT stadion.ime
+  FROM klub
+       JOIN
+       igra_klub ON klub.id = igra_klub.klub
+       JOIN
+       tekma ON igra_klub.tekma = tekma.id
+       JOIN
+       stadion ON tekma.stadion = stadion.id
+ WHERE igra_klub.tip = 'domaci' and klub.ime = ?
+ GROUP BY klub.ime
+ ORDER BY count(stadion.ime) DESC;'''
+        curr.execute(poizvedba,[ime])
+        podatki = curr.fetchall()
+        return podatki
+    
+    @staticmethod
+    def koliko_golov(conn, ime_kluba):
+        curr = conn.cursor()
+        poizvedba = '''SELECT sezona,
+       COUNT( * ) 
+  FROM zadetek
+       JOIN
+       klub ON klub.id = zadetek.klub
+       JOIN
+       tekma ON tekma.id = zadetek.tekma
+ WHERE klub.ime = ?
+ GROUP BY klub.ime,
+          sezona;'''
+        curr.execute(poizvedba,[ime_kluba])
+        podatki = curr.fetchall()
+        return podatki
+    
 
 class Stadion:
     def __init__(self, ide, ime):
