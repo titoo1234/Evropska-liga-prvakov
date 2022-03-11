@@ -58,8 +58,8 @@ def iskanje_igralca():
 
 @bottle.get('/to/se/more/ujemat2')
 def iskanje_kluba():
-    prebrano = bottle.request.query
-    bottle.redirect("/klub/" + prebrano['ime'])
+    prebrano = bottle.request.query.getunicode('ime2')
+    bottle.redirect("/klub/" + prebrano)
 
 
 
