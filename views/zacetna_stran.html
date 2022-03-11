@@ -5,13 +5,22 @@
     <tr>
       <th>Sezona</th>
       <th><form action="/to/se/more/ujemat">
-			Igralec: <input type="text" name="ime">
+			Igralec: <input type="text" list="ime" name="ime">
 			<input type="submit" value="Išči">
+			
+			<datalist id="ime">
+			
+			%for igralec in vsi_igralci:
+				<option>{{igralec[0]}}</option>
+			%end
+			
+
+		</datalist>
+			
 		</form>
 		</th>
       <th><form action="/to/se/more/ujemat2">
-		
-			Klub: <input type="text" list="ime" />
+			Klub: <input type="text" list="ime" name="ime">
 			<input type="submit" value="Išči">
 			
 		<datalist id="ime">
