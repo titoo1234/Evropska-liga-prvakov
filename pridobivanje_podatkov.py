@@ -42,7 +42,9 @@ def test_tekme_group(link):
     req = requests.get(link).text
     tekme = re.findall(r'class="fleft"><time><div class="fdate".+</a></span></div><div>Attendance:', req, re.DOTALL)
     tabela_tekm1 = tekme[0].split('<div class="fdate">')
+
     tabela_tekm = tabela_tekm1[1:]
+    tabela_tekm = [el.split('<table class="wikitable" style="text-align:center;">')[0] for el in tabela_tekm]
     urejena_tabela_tekm = []
     prejsni1 = []
     prejsni2 = []

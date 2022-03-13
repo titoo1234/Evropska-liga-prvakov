@@ -4,7 +4,7 @@ import hashlib
 import model
 from dodajanje import *
 from  iskanje_slike import *
-conn = dbapi.connect('vaja_seminarska.db')
+conn = dbapi.connect('vaja_seminarska1.db')
 def password_md5(s):
     """Vrni MD5 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
        kodirana s to funkcijo."""
@@ -126,15 +126,17 @@ def static(filename):
 
 @bottle.get('/klub/<ime>')
 def klub(ime):
-    url = poisci_url(ime +' logo')
-    stadion = model.Klub.domaci_stadion(conn, ime)
-    url_stadion = poisci_url(stadion)
-    sezona_gol = model.Klub.koliko_golov(conn, ime)
-    vsota = 0
-    for sezona, goli in sezona_gol:
-        vsota += goli
-    return bottle.template('klub.html',user=get_user(),ime=ime, url=url,stadion = stadion,goli=sezona_gol, vsota=vsota,url_stadion = url_stadion)
-
+    try:
+        url = poisci_url(ime +' logo')
+        stadion = model.Klub.domaci_stadion(conn, ime)
+        url_stadion = poisci_url(stadion)
+        sezona_gol = model.Klub.koliko_golov(conn, ime)
+        vsota = 0
+        for sezona, goli in sezona_gol:
+            vsota += goli
+        return bottle.template('klub.html',user=get_user(),ime=ime, url=url,stadion = stadion,goli=sezona_gol, vsota=vsota,url_stadion = url_stadion)
+    except:
+        bottle.redirect("/")
     
 
 @bottle.get('/<ime>')
