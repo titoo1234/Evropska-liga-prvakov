@@ -1,0 +1,53 @@
+% rebase('osnova_spletnega_vmesnika.html', title='Registracija', uporabniskoIme=user)
+
+
+<form class="form-signin" method="post">
+      <a href="/"></a>
+      <h1 class="h3 mb-3 font-weight-normal">Vstavi igralca</h1>
+      <label for="ime_igralca" class="sr-only">Ime igralca</label>
+      <input type="ime_igralca" id="ime_igralca" class="form-control" placeholder="Ime igralca" name="Vstavi_igralca" required autofocus>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Vstavi igralca</button>
+      %if Napaka1 is not None:
+            {{Napaka1}}
+      %end
+      <h1 class="h3 mb-3 font-weight-normal"></h1>
+      <h1 class="h3 mb-3 font-weight-normal"></h1>
+
+</form>
+
+<form class="form-signin" method="post">
+      <a href="/"></a>
+      
+      <h1 class="h3 mb-3 font-weight-normal">Vstavi klub</h1>
+      <label for="ime_kluba" class="sr-only">Ime kluba</label>
+      <input type="ime_kluba" id="ime_kluba" class="form-control" placeholder="Ime kluba" name="Vstavi_klub" required autofocus>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Vstavi klub</button>
+      %if Napaka2 is not None:
+            {{Napaka2}}
+      %end
+      <h1 class="h3 mb-3 font-weight-normal"></h1>
+      <h1 class="h3 mb-3 font-weight-normal"></h1>
+
+</form>
+
+<form class="form-signin" method="post">
+      <a href="/"></a>
+      <h1 class="h3 mb-3 font-weight-normal">Vstavi tekmo</h1>
+      <label for="ime_igralca" class="sr-only">Ime kluba</label>
+      <input type="ime_igralca" id="ime_igralca" class="form-control" placeholder="Ime igralca" name="Vstavi_klub1" required autofocus>
+
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj tekmo</button>
+
+</form>
+
+
+
+
+
+
+
+
+

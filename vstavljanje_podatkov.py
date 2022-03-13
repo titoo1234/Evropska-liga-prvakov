@@ -1,6 +1,6 @@
 from pridobivanje_podatkov import *
 from dodajanje import *
-conn = dbapi.connect('vaja_seminarska_v2.db')
+conn = dbapi.connect('vaja_seminarska.db')
 slovar = poberi_leta(17)
 skupine = "ABCDEFGH"
 boji = ["OF"] * 16 + ["CF"] * 8 + ["PF"] * 4 + ["FINALE"]

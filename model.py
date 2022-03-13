@@ -63,6 +63,19 @@ class Igralec:
         curr.execute(poizvedba)
         podatki = curr.fetchall()
         return podatki
+    @staticmethod
+    def dodaj_igralca(conn, oseba):
+        cur = conn.cursor()
+        sql = '''
+                INSERT INTO igralec
+                (ime)
+                VALUES
+                (?)
+            '''
+        parametri = [oseba]
+        cur.execute(sql, parametri)
+        conn.commit()
+#         cur.commit()
     
     
 class Tekma:
@@ -199,6 +212,18 @@ class Klub:
         curr.execute(poizvedba,[ime_kluba])
         podatki = curr.fetchall()
         return podatki
+    @staticmethod
+    def dodaj_klub(conn, ime_kluba):
+        cur = conn.cursor()
+        sql = '''
+            INSERT INTO klub
+            (ime)
+            VALUES
+            (?)
+        '''
+        parametri = [ime_kluba]
+        conn.execute(sql, parametri)
+        conn.commit()
     
 
 class Stadion:
@@ -230,4 +255,56 @@ def vse_sezone(conn):
     curr.execute(poizvedba)
     podatki = curr.fetchall()
     return podatki
-    
+
+class Uporabnik:
+
+    def __init__(self, uporabniskoIme=None, geslo=None, licenca=None):
+        self.uporabniskoIme = uporabniskoIme
+        self.geslo = geslo
+        self.licenca = licenca
+
+    def __str__(self):
+        return self.uporabniskoIme
+
+    def jeUporabnik(self,conn):
+        sql = '''
+        SELECT * FROM uporabnik
+        WHERE uporabniskoIme= ?;'''.format(self.uporabniskoIme)
+        poizvedba = conn.execute(sql,[self.uporabniskoIme])
+        if poizvedba.fetchone():
+            return poizvedba
+        return None
+    def jeUporabnik_login(self,conn):
+        sql = '''
+        SELECT * FROM uporabnik
+        WHERE uporabniskoIme=? and geslo = ? ;'''
+        poizvedba = conn.execute(sql,[self.uporabniskoIme,self.geslo])
+        if poizvedba.fetchone():
+            return poizvedba
+        return None
+
+    def jeUporabljenaLicenca(self,conn):
+        sql = '''
+        SELECT * FROM uporabnik
+        WHERE licenca= ?;'''
+        poizvedba = conn.execute(sql,[self.licenca])
+        if poizvedba.fetchone():
+            return poizvedba
+        return None
+
+    def vstaviUporabnika(self,conn):
+        sql = '''
+        INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES (?,?,?);'''
+        conn.execute(sql,[self.uporabniskoIme, self.geslo, self.licenca])
+        conn.commit()
+
+    @staticmethod
+    def jePravaLicenca(licencna_st,conn):
+        sql = '''
+        SELECT id FROM licenca
+        WHERE id= ?'''
+        poizvedba = conn.execute(sql,[licencna_st]).fetchone()
+        print(poizvedba)
+        if poizvedba:
+            return poizvedba[0]
+        return None

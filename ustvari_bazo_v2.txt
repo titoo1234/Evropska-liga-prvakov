@@ -51,3 +51,68 @@ CREATE TABLE zadetek (
     minuta TEXT,
     UNIQUE (tekma, klub, igralec, minuta)
 );
+
+
+
+CREATE TABLE licenca (id TEXT PRIMARY KEY);
+INSERT INTO licenca (id) VALUES ('UnFtDeul');
+INSERT INTO licenca (id) VALUES ('rfzpV7yq');
+INSERT INTO licenca (id) VALUES ('l40328Ny');
+INSERT INTO licenca (id) VALUES ('wB1otPhY');
+INSERT INTO licenca (id) VALUES ('K58LXG1e');
+INSERT INTO licenca (id) VALUES ('rieUnePn');
+INSERT INTO licenca (id) VALUES ('rf6ThdF3');
+INSERT INTO licenca (id) VALUES ('H1nuRoCd');
+INSERT INTO licenca (id) VALUES ('dCwCsJth');
+INSERT INTO licenca (id) VALUES ('0geKcDeW');
+INSERT INTO licenca (id) VALUES ('bt2GFUrY');
+INSERT INTO licenca (id) VALUES ('uQ0b4iIE');
+INSERT INTO licenca (id) VALUES ('RSLck1A3');
+INSERT INTO licenca (id) VALUES ('yTrukX7K');
+INSERT INTO licenca (id) VALUES ('VSCXT1PG');
+INSERT INTO licenca (id) VALUES ('y4Zgc1uC');
+INSERT INTO licenca (id) VALUES ('laqL1E5w');
+INSERT INTO licenca (id) VALUES ('2NzDpO2r');
+INSERT INTO licenca (id) VALUES ('8PS7OdaY');
+INSERT INTO licenca (id) VALUES ('gbZX08wL');
+INSERT INTO licenca (id) VALUES ('hcA9RbWb');
+INSERT INTO licenca (id) VALUES ('L0FuX1qp');
+INSERT INTO licenca (id) VALUES ('qn8OwnIf');
+INSERT INTO licenca (id) VALUES ('tYvcO2RL');
+INSERT INTO licenca (id) VALUES ('XfZW9A7L');
+INSERT INTO licenca (id) VALUES ('1nAiSg5N');
+INSERT INTO licenca (id) VALUES ('eD6nyzv6');
+INSERT INTO licenca (id) VALUES ('kXg9Oudq');
+INSERT INTO licenca (id) VALUES ('5nDDG9j1');
+INSERT INTO licenca (id) VALUES ('DnmDxFIm');
+INSERT INTO licenca (id) VALUES ('FCIc5LGW');
+INSERT INTO licenca (id) VALUES ('jdkxTv4s');
+INSERT INTO licenca (id) VALUES ('XmP8F532');
+INSERT INTO licenca (id) VALUES ('85IJ4sha');
+INSERT INTO licenca (id) VALUES ('43ftNr7c');
+INSERT INTO licenca (id) VALUES ('Rh9380ss');
+INSERT INTO licenca (id) VALUES ('PGtYKNfH');
+INSERT INTO licenca (id) VALUES ('eaIizRJn');
+INSERT INTO licenca (id) VALUES ('bmehq8P0');
+INSERT INTO licenca (id) VALUES ('5PUBsg0G');
+INSERT INTO licenca (id) VALUES ('J7u6J2IO');
+INSERT INTO licenca (id) VALUES ('IauaUOcl');
+INSERT INTO licenca (id) VALUES ('8639cwZG');
+INSERT INTO licenca (id) VALUES ('crIcXyOh');
+INSERT INTO licenca (id) VALUES ('yh9NXxMe');
+INSERT INTO licenca (id) VALUES ('kIVTkasF');
+INSERT INTO licenca (id) VALUES ('JdMBO1cH');
+INSERT INTO licenca (id) VALUES ('JBTBhnKz');
+INSERT INTO licenca (id) VALUES ('vZIGn33v');
+INSERT INTO licenca (id) VALUES ('XuEfyRiy');
+
+CREATE TABLE uporabnik (uporabniskoIme TEXT PRIMARY KEY, geslo TEXT, licenca TEXT REFERENCES licenca (id));
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Olimpija', '202cb962ac59075b964b07152d234b70', 'UnFtDeul');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Oi', '202cb962ac59075b964b07152d234b70', 'rfzpV7yq');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Nastop', '202cb962ac59075b964b07152d234b70', 'wB1otPhY');
+
+
+
+
+
+
