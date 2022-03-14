@@ -50,16 +50,72 @@ while True:
             
         while True:
             try:
-                vnos = int(input("Vnesi število željenege sezone: "))
+                vnos = int(input("Vnesi zaporedno številko željene sezone: "))
                 if vnos not in range(1,len(sezone)+1):
-                    print("Neveljavno vnos, poskusite znova!")
+                    print("Neveljaven vnos, poskusite znova!")
                     #izpiše katera leta?
                 else:
                     break
             except:
                 print("Neveljaven vnos, poskusite znova!")
-        tekme = model.Tekma.tekme_v_eni_sezoni(conn,sezona[vnos])
-        print(tekme)
+        tekme = model.Tekma.tekme_v_eni_sezoni(conn,sezone[vnos-1])
+        for te in tekme:
+            print(te)
+            
+            
+            
+    elif stevka == 2:
+        print()
+        igralci = model.Igralec.vsi_igralci(conn)
+        print("Vnesi ime igralca oblike Ime Priimek!")
+        igralec_vhod = input("Igralec: ")
+        print()
+        if (igralec_vhod,) in igralci:
+            print(igralec_vhod)
+            objekt = model.Igralec(najdi_igralec_id(conn, igralec_vhod),igralec_vhod)
+            goli = objekt.koliko_golov(conn)
+            for a,b in goli:
+                print(a, b)
+            print("Skupno: " + str(objekt.koliko_golov_skupno(conn)[0][0]))
+            print()
+        else:
+            print("Igralec ne obstaja!")
+            
+            
+    elif stevka == 3:
+        print()
+        klubi = model.Klub.vsi_klubi(conn)
+        print("Vnesi ime kluba!")
+        klub_vhod = input("Klub: ")
+        print()
+        for klub in klubi:
+            if klub.ime == klub_vhod:
+                stevilo_golov = model.Klub.koliko_golov(conn, klub.ime)
+                skupno = 0
+                print(klub.ime)
+                print("Domači stadion: " + model.Klub.domaci_stadion(conn, klub.ime)[0][0])
+                for a,b in stevilo_golov:
+                    print(a, b)
+                    skupno += b
+                print("Skupno: " + str(skupno))
+                
+                print()
+                break
+        else:
+            print("Klub ne obstaja!")
+            
+            
+    elif stevka == 4:
+        print()
+        najbolsi_strelci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 5)
+        najbolsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 5)
+        print("Najboljši igralci in klubi!")
+        print("{:>20s}   {:s}  {:>20s}   {:s}".format("Ime igralca","Število golov", "Ime kluba", "Število golov"))
+        for a,b in zip(najbolsi_strelci,najbolsi_klubi):
+            print("{:>20s} | {:s}  {:>31s} | {:s}".format(a[0],str(a[1]), b[0], str(b[1])))
+                
+            
+    
         
         
         
