@@ -4,7 +4,19 @@ import hashlib
 import model
 from dodajanje import *
 from  iskanje_slike import *
-conn = dbapi.connect('vaja_seminarska1.db')
+conn = dbapi.connect('vaja_seminarska11.db')
+month = {	'01':'Janauary',
+		'02':'February',
+		'03':'March',
+		'04':'April',
+		'05':'May',
+		'06':'June',
+		'07':'July',
+		'08':'August',
+		'09':'September',
+		'10':'October',
+		'11':'November',
+		'12':'December'		}
 def password_md5(s):
     """Vrni MD5 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
        kodirana s to funkcijo."""
@@ -113,11 +125,12 @@ def register_post():
 @bottle.get('/')
 def naslovna():
     vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
-    klubi = vsi_klubi[:4]
+    sezone = model.vse_sezone(conn)
+    klubi = vsi_klubi[:len(sezone)]
     vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
-    igralci = vsi_igralci[:4]
+    igralci = vsi_igralci[:len(sezone)]
     vsi = model.Klub.vsi_klubi(conn)
-    return bottle.template('zacetna_stran.html', igralci=igralci, sezone = model.vse_sezone(conn),klubi = klubi,vsi=vsi,vsi_igralci = vsi_igralci,vsi_klubi = vsi_klubi,user=get_user())
+    return bottle.template('zacetna_stran.html', igralci=igralci, sezone = sezone,klubi = klubi,vsi=vsi,vsi_igralci = vsi_igralci,vsi_klubi = vsi_klubi,user=get_user())
 
 
 @bottle.get('/static/<filename:path>')
@@ -151,12 +164,19 @@ def igralec(ime):
     
 @bottle.get('/sezona/<sez1>' + '/<sez2>')
 def sezona(sez1,sez2):
-    
-    tekme = model.Tekma.tekme_v_eni_sezoni(conn,sez1 + '/'+sez2)
-    finale = tekme[-1]
-    zmagovalec = finale.zmagovalec_finala()
     sezona = sez1+ '/'+sez2
-    return bottle.template('sezona.html',user=get_user(),sezona = sezona,tekme = tekme,zmagovalec = zmagovalec,url = poisci_url(zmagovalec + 'logo'))
+    tekme = model.Tekma.tekme_v_eni_sezoni(conn,sezona)
+    koliko_golov = model.koliko_golov_sezona(conn,sezona)
+    najdel = False
+    for tekma in tekme[::-1]:
+        if tekma.tip == "FINALE":
+            zmagovalec = tekma.zmagovalec_finala()
+            najdel = True
+            break
+    
+    if not najdel:
+        zmagovalec = 'V tej sezoni še ni bilo odigranega finala'
+    return bottle.template('sezona.html',koliko_golov = koliko_golov, user=get_user(),sezona = sezona,najdel = najdel,tekme = tekme,zmagovalec = zmagovalec,url = poisci_url(zmagovalec + 'logo'))
 
 @bottle.get('/to/se/more/ujemat')
 def iskanje_igralca():
@@ -170,8 +190,11 @@ def iskanje_kluba():
     bottle.redirect("/klub/" + prebrano)
 
 @bottle.get('/uredi')
-def uredi(Napaka1 = None,Napaka2 = None):
-    return bottle.template('uredi.html',user=get_user(),Napaka1=Napaka1,Napaka2 = Napaka2)
+def uredi(Napaka1 = None):
+    vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
+    vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
+    vsi_stadioni = model.Stadion.vsi_stadioni(conn)
+    return bottle.template('uredi.html',vsi_stadioni = vsi_stadioni,vsi_klubi = vsi_klubi,vsi_igralci=vsi_igralci,user=get_user(),Napaka1=Napaka1)
 
 @bottle.post('/uredi')
 def dodaj_igralca():
@@ -185,7 +208,6 @@ def dodaj_igralca():
             model.Igralec.dodaj_igralca(conn, ime)
             return bottle.template('uredi.html',user=get_user(),Napaka1 = 'Uspelo',Napaka2 = None)
 
-        
     #         bottle.redirect('/uredi',user=get_user(), napaka1='Uspešno dodan igralec',Napaka2 = None)
         except:
             return bottle.template('uredi.html',user=get_user(),Napaka1 = 'Ta igralec že obstaja',Napaka2 = None)
@@ -193,11 +215,72 @@ def dodaj_igralca():
         try:
             model.Klub.dodaj_klub(conn, klub)
             return bottle.template('uredi.html',user=get_user(),Napaka1 = None,Napaka2 = 'Uspelo')
-
         except:
             return bottle.template('uredi.html',user=get_user(),Napaka1 = None,Napaka2 = 'Ta klub že obstaja')
 
+@bottle.get('/uredi/to/se/more/ujemat3')
+def dodajanje_tekme():
+    #TODO treba napisat v redu datum
+    datum = bottle.request.query.getunicode("trip-start")
+    #2018-07-22
+    
+    sezona = int(datum[2:4])
+    if int(datum[5:7]) < 9:
+        sezona -= 1
+    if model.je_finale(conn,sezona):
+        vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
+        vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
+        vsi_stadioni = model.Stadion.vsi_stadioni(conn)
+        return bottle.template('uredi.html',vsi_stadioni = vsi_stadioni,vsi_klubi = vsi_klubi,vsi_igralci=vsi_igralci,user=get_user(),Napaka1='To sezono je že bilo odigrano finale')
+        
+    
+    datum = str(int(datum[-2:]))+ ' ' + month[datum[5:7]] +' '+ datum[:4]
+    klub1 = bottle.request.query.getunicode("klub1")
+    klub2 = bottle.request.query.getunicode("klub2")
+    goli1 = int(bottle.request.query.getunicode("goli1"))
+    goli2 = int(bottle.request.query.getunicode("goli2"))
+    tip = bottle.request.query.getunicode("tipi")
+    stadion = bottle.request.query.getunicode("stadion")
+    dodaj_klub(conn,klub1)#samo če ga ni ga vstavi
+    dodaj_klub(conn,klub2)
+    dodaj_stadion(conn,stadion)
+    
+#     klub_id1 = najdi_klub_id(conn,klub1)
+#     klub_id2 = najdi_klub_id(conn,klub2)
+#     stadion_id = najdi_stadion_id(conn,stadion)
+    rezultat = str(goli1)+'-'+str(goli2)
+    dodaj_tekmo(conn,sezona,datum,rezultat,stadion,tip)
+    dodaj_igra_klub(conn, sezona, datum, klub1, 'domaci', stadion)
+    dodaj_igra_klub(conn, sezona, datum, klub2, 'gostje', stadion)
+    for i in range(goli1):
+        igralec = bottle.request.query.getunicode("igralec1" + str(i))
+        minuta = bottle.request.query.getunicode("minuta1" + str(i))
+        if igralec == "" or minuta == "":
+            vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
+            vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
+            vsi_stadioni = model.Stadion.vsi_stadioni(conn)
+            return bottle.template('uredi.html',vsi_stadioni = vsi_stadioni,vsi_klubi = vsi_klubi,vsi_igralci=vsi_igralci,user=get_user(),Napaka1='Nisi označil pravilno')
+        dodaj_igralca1(conn,igralec)
+        dodaj_ekipo(conn, sezona, klub1, igralec)     
+        dodaj_zadetek(conn, klub1, igralec, minuta, sezona, datum, stadion)
+        
+        
+    for i in range(goli2):
+        igralec = bottle.request.query.getunicode("igralec2" + str(i))
+        minuta = bottle.request.query.getunicode("minuta2" + str(i))
+        if igralec == "" or minuta == "":
+            vsi_klubi = model.Klub.najvec_zadetkov_klubi(conn, 500)
+            vsi_igralci = model.Igralec.najbolsi_strelci_vsa_leta(conn, 10000)
+            vsi_stadioni = model.Stadion.vsi_stadioni(conn)
+            return bottle.template('uredi.html',vsi_stadioni = vsi_stadioni,vsi_klubi = vsi_klubi,vsi_igralci=vsi_igralci,user=get_user(),Napaka1='Nisi označil pravilno')     
+        dodaj_igralca1(conn,igralec)
+        dodaj_ekipo(conn, sezona, klub2, igralec)
+        dodaj_zadetek(conn, klub2, igralec, minuta, sezona, datum, stadion)
+    
 
+    conn.commit()
+#     print(datum)
+    bottle.redirect("/uredi")
 
 bottle.run(debug=True)
 

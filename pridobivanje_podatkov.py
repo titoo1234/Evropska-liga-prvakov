@@ -217,7 +217,7 @@ def poberi_leta(od):
     del2b = '_UEFA_Champions_League_knockout_phase'
     vmes = '%E2%80%93'
     slovar = dict()
-    for leto in range(od,21):
+    for leto in range(od,22):
         link1 = del1+str(leto)+vmes+str(leto+1)+del2a
         link2 = del1+str(leto)+vmes+str(leto+1)+del2b
         group = test_tekme_group(link1)

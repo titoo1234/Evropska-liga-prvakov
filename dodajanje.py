@@ -34,7 +34,7 @@ def najdi_tekma_id(conn, sezona, datum, stadion):
     tekma_id = tekma_id.fetchall()[0][0]
     return tekma_id
 
-def dodaj_igralca(conn, oseba):
+def dodaj_igralca1(conn, oseba):
     cur = conn.cursor()
     cur.execute('''
                  SELECT ime from igralec;

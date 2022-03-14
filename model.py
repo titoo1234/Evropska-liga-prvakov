@@ -251,10 +251,35 @@ class Stadion:
 def vse_sezone(conn):
     curr = conn.cursor()
     poizvedba = '''SELECT DISTINCT sezona
-                          FROM tekma;'''
+                  FROM tekma
+                 ORDER BY sezona;'''
     curr.execute(poizvedba)
     podatki = curr.fetchall()
     return podatki
+def je_finale(conn,sezona):
+    sezona = "20"+str(sezona)+"/"+str(sezona+1)
+    curr = conn.cursor()
+    poizvedba = '''SELECT *
+                      FROM tekma
+                     WHERE tip = 'FINALE' AND 
+                           sezona = ?;'''
+    curr.execute(poizvedba,[sezona])
+    podatki = curr.fetchall()
+    if len(podatki) > 0:
+        return True
+    return False
+def koliko_golov_sezona(conn,sezona):
+    curr = conn.cursor()
+    poizvedba = '''SELECT 
+                           count( * ) 
+                      FROM tekma
+                           JOIN
+                           zadetek ON tekma.id = zadetek.tekma
+                     where sezona = ?;'''
+    curr.execute(poizvedba,[sezona])
+    podatki = curr.fetchall()
+    return podatki[0][0]
+    
 
 class Uporabnik:
 
@@ -269,7 +294,7 @@ class Uporabnik:
     def jeUporabnik(self,conn):
         sql = '''
         SELECT * FROM uporabnik
-        WHERE uporabniskoIme= ?;'''.format(self.uporabniskoIme)
+        WHERE uporabniskoIme= ?;'''
         poizvedba = conn.execute(sql,[self.uporabniskoIme])
         if poizvedba.fetchone():
             return poizvedba
