@@ -1,11 +1,43 @@
 % rebase("osnova_spletnega_vmesnika.html",uporabniskoIme=user)
+<style>
+  #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0E1E5B;
+    color: white;
+  }
+  </style>
 
 <h3 class="title is-2">SEZONA {{sezona}}</h3>
 
 <h4 class="title is-4">Zmagovalec: {{zmagovalec}}</h4>
+<h4 class="title is-4">Skupno število golov: {{koliko_golov}}</h4>
+<h4 class="title is-4">Število tekem: {{len(tekme)}}</h4>
 
-
+%if najdel:
 <img src = {{url}} alt = "slika">
+
+%else:
+<img src = "https://pa1.narvii.com/6561/7b934e1dc365e0e029ac8e0d64e4ea3a2f54cc48_hq.gif" alt = "slika">
+%end
+
 
 
 %niz = 'ABCDEFGH'
@@ -16,7 +48,7 @@
 <summary><h3 class="title is-2">SKUPINA {{niz[i]}}</h3></summary>
 
 <div style="display:none"></div>
-<table is-fullwidth class="table">
+<table id="customers" is-fullwidth class="table" >
 <thead>
     <tr>
       <th>Datum</th>
@@ -59,10 +91,10 @@
 <summary><h3 class="title is-2"> {{zapis[j]}}</h3></summary>
 
 <div style="display:none"></div>
-<table is-fullwidth class="table">
+<table is-fullwidth class="table" id="customers"  >
 <thead>
     <tr>
-      <th>Datum</th>
+      <th >Datum</th>
       <th>Stadion</th>
       <th>Domači</th>
       <th>Rezultat</th>
