@@ -126,7 +126,7 @@ def klub(ime):
     try:#
         url = poisci_url(ime +' logo')
         if najdi_klub_id(conn,ime) < -1:#Klub ne obstaja, ostane na začetni strani
-            raise Exception()
+            raise Exception('Napačen vnos')
         stadion = model.Klub.domaci_stadion(conn, ime)
         url_stadion = poisci_url(stadion)
         sezona_gol = model.Klub.koliko_golov(conn, ime)
