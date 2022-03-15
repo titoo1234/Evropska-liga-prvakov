@@ -9,14 +9,16 @@
       <tr>
         <th>Sezona</th>
         <th>Goli</th>
+        <th>Klub</th>
         </tr>
     </thead>
     <tbody>
-        % for sezona,goli in nasezono:
+        % for sezona,goli,klub in nasezono:
       <tr>
       
       <td><a href="/sezona/{{sezona}}">{{sezona}}</a></td>
           <td><a href="/sezona/{{sezona}}">{{goli}}</a></td>
+          <td><a href="/klub/{{klub}}">{{klub}}</a></td>
 
       
       % end

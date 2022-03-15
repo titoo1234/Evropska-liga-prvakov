@@ -1,44 +1,12 @@
-
 import requests
 import re
-
-def poberi_ekipe(link):
-    """
-    pobere vse ekipe z karticami in jih shrani v tabelo (zaenkrat)
-    """
-    req = requests.get(link).text
-    #ekipe = re.findall(r'<th scope="col" width="28"><a href="/wiki/.+" title=".+">.+', req)
-    ekipe = re.findall(r'<th scope="row" style="text-align: left; white-space:nowrap;font-weight: normal;background-color:.+;"><span class="flagicon"><a href=".+" title=".+"><img alt=".+" src=".+" decoding="async" width=".+" height=".+" class="thumbborder" srcset=".+" data-file-width=".+" data-file-height=".+" /></a></span> <a href="/wiki/.+" title=".+">.+</a>', req)
-    ekipe_v_tabeli = []
-    for el in ekipe:
-        ekipa = el.split('"')
-        ime = ekipa[-2]
-        if ime == "Galatasaray S.K. (football team)":
-            ime = "Galatasaray S.K. (football)" # pač na wikipediji so retardirani in so jih različno poimenovali
-        if ime not in ekipe_v_tabeli:
-            ekipe_v_tabeli.append(ime) # včasih je prislo do tiebreakov med ekpami in so napisane potem v še eni tabeli, zato da jih ne podvojima
-    return ekipe_v_tabeli
-
-def poberi_ekipe_vec_let(zac_leto):
-    """
-    z rezličnimi leti poklice funkcijo poberi_ekipe
-    """
-    if zac_leto > 2020 or zac_leto < 2000:
-        return []
-    slovar = dict()
-    for leto in range(zac_leto, 2021):
-        zacetni_link = "https://en.wikipedia.org/wiki/20ž%E2%80%93Ž_UEFA_Champions_League_group_stage" #črka ž namesto letnic
-        prvi_del_sezone = str(leto)[-2:]
-        drugi_del_sezone = str(leto + 1)[-2:]
-        pravi_link = zacetni_link.replace("ž", prvi_del_sezone)
-        pravi_link = pravi_link.replace("Ž", drugi_del_sezone)
-        slovar[leto] = poberi_ekipe(pravi_link)
-    return slovar
-
-#a = poberi_ekipe_vec_let(2000) #dela od 2000 naprej, za prejšnja leta bo treba še malo modifikacije, lahk pa tut rečema da je dost
+import json
 
 
 def test_tekme_group(link):
+    '''
+    poberi podatke za skupinski del v neki sezoni
+    '''
     req = requests.get(link).text
     tekme = re.findall(r'class="fleft"><time><div class="fdate".+</a></span></div><div>Attendance:', req, re.DOTALL)
     tabela_tekm1 = tekme[0].split('<div class="fdate">')
@@ -115,6 +83,9 @@ def test_tekme_group(link):
     
     return urejena_tabela_tekm
 def test_tekme_knock(link):
+    '''
+    poberi podatke za izločilne boje v neki sezoni
+    '''
     req = requests.get(link).text
     tekme = re.findall(r'class="fleft"><time><div class="fdate".+</a></span></div><div>Attendance:', req, re.DOTALL)
     tabela_tekm1 = tekme[0].split('<div class="fdate">')
@@ -211,7 +182,9 @@ def test_tekme_knock(link):
 
 
 def poberi_leta(od):
-    '''dela od leta 2016!!!'''
+    '''
+    Pobere vse podatke iz spleta od leta 2017 naprej
+    '''
     del1 = "https://en.wikipedia.org/wiki/20"
     del2a = "_UEFA_Champions_League_group_stage"
     del2b = '_UEFA_Champions_League_knockout_phase'
@@ -225,6 +198,15 @@ def poberi_leta(od):
         slovar[leto] = [group,knock]
     return slovar
 # sl = poberi_leta(17)
+
+if __name__ == '__main__':
+    sl = poberi_leta(17)
+    with open('vsi_podatki.json', 'w') as dat:
+        json.dump(sl, dat)
+    
+
+
+
         
     
         

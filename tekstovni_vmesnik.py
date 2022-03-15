@@ -3,7 +3,7 @@ import model
 from dodajanje import *
 import sqlite3 as dbapi
 import difflib
-conn = dbapi.connect('vaja_seminarska1.db')
+conn = dbapi.connect('finalna1.db')
 
 
 #TO DELA
@@ -89,14 +89,17 @@ while True:
             if (igralec_vhod,) in igralci:
                 print(igralec_vhod)
                 objekt = model.Igralec(najdi_igralec_id(conn, igralec_vhod),igralec_vhod)
-                goli = objekt.koliko_golov(conn)
-                for a,b in goli:
-                    print(a, b)
-                print("Skupno: " + str(objekt.koliko_golov_skupno(conn)[0][0]))
+                goli = objekt.koliko_golov_sezona_klub(conn)
+                print("{:>20s} | {:s} | {:s}".format("Sezona","Goli","Ekipa"))
+                for a,b,c in goli:
+                    print("{:>20s} | {:4s} | {:s}".format(str(a), str(b), str(c)))
+                print()
+                print("{:>20s} | {:4s}".format("Skupno", str(objekt.koliko_golov_skupno(conn)[0][0])))
+
                 print()
                 break
             elif len(difflib.get_close_matches(igralec_vhod, igralci1)) > 0:
-                print("Ste morda mislili katerega od naslednjiih kolesarjev?")
+                print("Ste morda mislili katerega od naslednjiih nogometašev?")
                 print(", ".join(difflib.get_close_matches(igralec_vhod, igralci1)))
                 
             else:
@@ -128,7 +131,7 @@ while True:
                 break
 
             elif len(difflib.get_close_matches(klub_vhod, vsi_klubi)) > 0:
-                print("Ste morda mislili katerega od naslednjiih kolesarjev?")
+                print("Ste morda mislili katerega od naslednjiih klubov?")
                 print(", ".join(difflib.get_close_matches(klub_vhod, vsi_klubi)))
                 
             else:

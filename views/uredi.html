@@ -9,16 +9,16 @@
       <label for="start">Datum tekme:</label>
 
       <input type="date" id="start" name="trip-start"
-             value="2018-07-22">
+             value="2022-03-16">
 
-      <label for="ime_igralca" class="sr-only">Stadion</label>
+      <label for="ime_igralca" class="sr-only">Stadion:</label>
       <input type="text" list="stadioni" name="stadion" placeholder="Stadion" required>	
 		<datalist id="stadioni">
 			%for stadion in vsi_stadioni:
 				<option>{{stadion.ime}}</option>
 			%end
 		</datalist>
-            <label for="ime_igralca" class="sr-only">Tip</label>
+            <label for="ime_igralca" class="sr-only">Tip:</label>
             <input type="text" list="tipi" name="tipi" placeholder="Tip" required>	
                   <datalist id="tipi">
                         %tipi = ["A","B","C","D","E","F","G","H","OF","CF","PF","FINALE"]
@@ -30,7 +30,7 @@
 
       <br> 
       <br> 
-      <label for="ime_igralca" class="sr-only">Ime kluba1</label>
+      <label for="ime_igralca" class="sr-only">Ime kluba1:</label>
       <input type="text" list="ime2" name="klub1" placeholder="Klub1" required>	
 		<datalist id="ime2">
 			%for klub in vsi_klubi:
@@ -52,16 +52,10 @@
             %for i in range(10):
       <option value="{{i}}">{{i}}</option>
       %end
-      %st = bottle.request.query.getunicode('goli2')
 
-      %if st == None:
-            asdasd
-      %end
-      {{st}}
-    
 
       </select>
-      <label for="ime_igralca2" class="sr-only">Ime kluba2</label>
+      <label for="ime_igralca2" class="sr-only">Ime kluba2:</label>
       <input type="text" list="klub2" name="klub2" placeholder="Klub2" required>	
 		<datalist id="klub2">
 			%for klub in vsi_klubi:
@@ -73,9 +67,9 @@
       <br> 
       <table is-fullwidth class="table" align = "center" >
             <thead></thead>
-            %for j in range(5):
+            %for j in range(8):
             <tr>
-            <td>    <label for="ime_igralca" class="sr-only">Igalec:</label>
+            <td>    <label for="ime_igralca" class="sr-only">Igralec:</label>
                   <input type="text" list="igralec1" name={{"igralec1" +str(j)}} placeholder="Igralec">	
                         <datalist id="igralec1">
                               %for igralec in vsi_igralci:
@@ -89,7 +83,7 @@
                                     <option>{{i}}</option>
                               %end
                         </datalist></td>
-            <td><label for="ime_igralca" class="sr-only">Igalec:</label>
+            <td><label for="ime_igralca" class="sr-only">Igralec:</label>
                   <input type="text" list="igralec1" name={{"igralec2" +str(j)}} placeholder="Igralec">	
                         <datalist id="igralec1">
                               %for igralec in vsi_igralci:
@@ -108,12 +102,7 @@
 
 
       </table>
-      
 
-           
-
-
-      
       <br> 
       <br> 
 
@@ -125,15 +114,6 @@
 {{Napaka1}}
 %end 
 
-
-
-   
-<p> The value of the option selected is:
-      <span class="output2"></span>
-  </p>
-  <p> The value of the option selected is:
-      <span class="output1"></span>
-  </p>
   <div id="demo"></div>
 
    

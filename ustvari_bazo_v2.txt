@@ -55,6 +55,9 @@ CREATE TABLE zadetek (
 
 
 CREATE TABLE licenca (id TEXT PRIMARY KEY);
+INSERT INTO licenca (id) VALUES ('licenca');
+INSERT INTO licenca (id) VALUES ('licenca1');
+INSERT INTO licenca (id) VALUES ('licenca2');
 INSERT INTO licenca (id) VALUES ('UnFtDeul');
 INSERT INTO licenca (id) VALUES ('rfzpV7yq');
 INSERT INTO licenca (id) VALUES ('l40328Ny');
@@ -107,9 +110,10 @@ INSERT INTO licenca (id) VALUES ('vZIGn33v');
 INSERT INTO licenca (id) VALUES ('XuEfyRiy');
 
 CREATE TABLE uporabnik (uporabniskoIme TEXT PRIMARY KEY, geslo TEXT, licenca TEXT REFERENCES licenca (id));
-INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Olimpija', '202cb962ac59075b964b07152d234b70', 'UnFtDeul');
-INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Oi', '202cb962ac59075b964b07152d234b70', 'rfzpV7yq');
-INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('Nastop', '202cb962ac59075b964b07152d234b70', 'wB1otPhY');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 'XuEfyRiy');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('a', '0cc175b9c0f1b6a831c399e269772661', 'vZIGn33v');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('tit', '46f4b5abc1f9a4fa0eca0520517e5730', 'JdMBO1cH');
+INSERT INTO uporabnik (uporabniskoIme, geslo, licenca) VALUES ('marko', 'c28aa76990994587b0e907683792297c', 'gbZX08wL');
 
 
 

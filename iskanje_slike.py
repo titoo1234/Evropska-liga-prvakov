@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 
 def poisci_url(niz):
+    '''
+    Poišče prvo sliko, ki jo najdemo v brskalniku
+    '''
     url = 'https://www.google.com/search?q={0}&tbm=isch'.format(niz)
     content = requests.get(url).content
     soup = BeautifulSoup(content,'lxml')
@@ -10,9 +13,3 @@ def poisci_url(niz):
     
     
     return vrni
-#     for image in images:
-#         print(image.get('src'))
-#     print(len(images))
-#https://stackoverflow.com/questions/55787165/getting-a-url-of-some-picture-from-google-search
-# a = poisci_url('messi')
-# print(str(a))

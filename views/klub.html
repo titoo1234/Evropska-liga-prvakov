@@ -1,34 +1,107 @@
 % rebase("osnova_spletnega_vmesnika.html",uporabniskoIme=user)
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  .row {
+    margin-left:-5px;
+    margin-right:-5px;
+  }
+    
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+  
+  /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 16px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  </style>
 
+
+
+
+  </head>
+  <body>
 <h3 class="title is-2">{{ime}}</h3>
+  
 <img src = {{url}} alt = "slika">
+%if len(stadion) > 0:
 
-<p>Domači stadion: {{stadion[0][0]}}</p>
-
+<h3 class="title is-3">Domači stadion: {{stadion[0][0]}}</h3>
 <img src = {{url_stadion}} alt = "slika">
+%else:
 
-<table is-fullwidth class="table" align = "center" >
-			
-    <thead>
+<h3 class="title is-3">Domači stadion: Ta klub nima domačega stadiona</h3>
+%end
+
+
+
+
+<div class="row">
+  <div class="column">
+    <table>
+
       <tr>
         <th>Sezona</th>
-        <th>Goli</th>
-        </tr>
-    </thead>
-    <tbody>
-        % for sezona,vsota_golov in goli:
+        <th>Doseženi zadetki</th>
+        <th>Najboljši strelec</th>
+  
+      </tr>
+      % for sezona,strelec in zip(goli,sezona_igralec):
       <tr>
       
-      <td><a href="/sezona/{{sezona}}">{{sezona}}</a></td>
-          <td><a href="/sezona/{{sezona}}">{{vsota_golov}}</a></td>
+      <td><a href="/sezona/{{sezona}}">{{sezona[0]}}</a></td>
+      <td>{{sezona[1]}}</td>
+      <td><a href="/{{strelec[1]}}">{{strelec[1]}}</a>, {{strelec[2]}}</td>
+
 
       
       % end
 	  <tr>
 	  <td>Skupno</td>
 	  <td>{{vsota}}</td>
+    </table>
+  </div>
+  <div class="column">
+    <table >
+      <tr>
+        <th>Igralec</th>
+        <th>Goli</th>
+        %for strelec in najbolsi_strelci[:5]:
       </tr>
-      </tbody>
-  </table>
+      <td> <a href="/{{strelec[0]}}">{{strelec[0]}}</a></td>
+      <td> {{strelec[1]}}</td>
+
+      </tr>
+      %end
+    </table>
+  </div>
+</div>
+
+
+
 
 

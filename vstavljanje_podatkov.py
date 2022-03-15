@@ -1,7 +1,12 @@
 from pridobivanje_podatkov import *
 from dodajanje import *
-conn = dbapi.connect('vaja_seminarska11.db')
-slovar = poberi_leta(17)
+conn = dbapi.connect('finalna.db')
+
+with open('vsi_podatki.json') as json_file:
+    slovar = json.load(json_file)
+
+
+# slovar = poberi_leta(17)
 skupine = "ABCDEFGH"
 boji = ["OF"] * 16 + ["CF"] * 8 + ["PF"] * 4 + ["FINALE"]
 boji19 = ["OF"] * 16 + ["CF"] * 4 + ["PF"] * 2 + ["FINALE"]
@@ -9,7 +14,7 @@ for leto in slovar:
     skupinski_del,izlocilni_boji = slovar[leto]
     stevec = 0
     for tekma in skupinski_del:
-        if tekma[6] == 'v</':# še ni bila odigrana tekma POPRAVIIIIII!!!!
+        if tekma[7] == 'v</':# še ni bila odigrana tekma 
             continue
         dodaj_klub(conn, tekma[6]) #dodamo prvo ekipo, nisem dal uradna imena, ker niso konstantna
         dodaj_klub(conn, tekma[9]) #dodamo drugo ekipo
@@ -42,7 +47,7 @@ for leto in slovar:
                 dodaj_zadetek(conn, tekma[9], igralec, minuta, leto, tekma[4], tekma[10])
     stevec = 0
     for tekma in izlocilni_boji:
-        if leto != 19:
+        if leto != '19': #To leto je bilo drugače!
             dodaj_stadion(conn, tekma[10])
             igralci1 = tekma[2]
             for igralec in igralci1:
@@ -66,6 +71,8 @@ for leto in slovar:
                 
                     dodaj_zadetek(conn, tekma[9], igralec, minuta, leto, tekma[4], tekma[10])
         else:
+            if tekma[7] == 'v</':# še ni bila odigrana tekma
+                continue
             dodaj_stadion(conn, tekma[10])
             igralci1 = tekma[2]
             for igralec in igralci1:
@@ -88,12 +95,6 @@ for leto in slovar:
                 for minuta in goli:
                     
                     dodaj_zadetek(conn, tekma[9], igralec, minuta, leto, tekma[4], tekma[10])
-            
-            
-            
-        
-        
-
 
 conn.commit()
 conn.close()

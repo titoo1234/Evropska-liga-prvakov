@@ -3,6 +3,9 @@ import os
 import sqlite3 as dbapi
 
 def najdi_klub_id(conn, klub):
+    '''
+    poišče id kluba 'klub'    
+    '''
     poizvedba = '''
     SELECT id from klub WHERE ime = ?
     '''
@@ -11,6 +14,9 @@ def najdi_klub_id(conn, klub):
     return klub_id
 
 def najdi_igralec_id(conn, igralec):
+    '''
+    poišče id igralca 'gralec'
+    '''
     poizvedba = '''
     SELECT id from igralec WHERE ime = ?
     '''
@@ -19,6 +25,9 @@ def najdi_igralec_id(conn, igralec):
     return igralec_id
 
 def najdi_stadion_id(conn, stadion):
+    '''
+    poišče id stadiona 'stadion'    
+    '''
     poizvedba = '''
     SELECT id from stadion WHERE ime = ?
     '''
@@ -27,7 +36,10 @@ def najdi_stadion_id(conn, stadion):
     return stadion_id
 
 def najdi_tekma_id(conn, sezona, datum, stadion):
-    sezona = "20"+str(sezona)+"/"+str(sezona+1)
+    '''
+    poišče id tekme    
+    '''
+    sezona = "20"+str(sezona)+"/"+str(int(sezona)+1)
     stadion_id = najdi_stadion_id(conn, stadion)
     poizvedba = '''SELECT id FROM tekma WHERE sezona = ? AND datum = ? AND stadion = ?; '''
     tekma_id = conn.execute(poizvedba, [sezona, datum, stadion_id])
@@ -35,6 +47,9 @@ def najdi_tekma_id(conn, sezona, datum, stadion):
     return tekma_id
 
 def dodaj_igralca1(conn, oseba):
+    '''
+    v bazo doda igralca 'oseba'   
+    '''
     cur = conn.cursor()
     cur.execute('''
                  SELECT ime from igralec;
@@ -51,6 +66,9 @@ def dodaj_igralca1(conn, oseba):
         cur.execute(sql, parametri)
         
 def dodaj_klub(conn, ime_kluba):
+    '''
+    V tabelo Klubi doda klub 'ime_kluba'    
+    '''
     cur = conn.cursor()
     cur.execute('''
                  SELECT ime from klub;
@@ -68,6 +86,9 @@ def dodaj_klub(conn, ime_kluba):
     
     
 def dodaj_ekipo(conn, sezona, klub,igralec):
+    '''
+    V bazo doda ekipo  
+    '''
     igralec_id = najdi_igralec_id(conn, igralec)
     klub_id = najdi_klub_id(conn, klub)
     sql = '''
@@ -76,7 +97,7 @@ def dodaj_ekipo(conn, sezona, klub,igralec):
         VALUES
         (?,?,?)
     '''
-    sezona = "20"+str(sezona)+"/"+str(sezona+1)
+    sezona = "20"+str(sezona)+"/"+str(int(sezona)+1)
     parametri = [
         sezona,
         klub_id,
@@ -90,6 +111,9 @@ def dodaj_ekipo(conn, sezona, klub,igralec):
         conn.execute(sql, parametri)
         
 def dodaj_stadion(conn, ime_stadiona):
+    '''
+    V bazo doda stadion 'stadion'   
+    '''
     sql = '''
         INSERT INTO stadion (ime)
 
@@ -106,8 +130,11 @@ def dodaj_stadion(conn, ime_stadiona):
         conn.execute(sql, parametri)
         
 def dodaj_tekmo(conn, sezona, datum, rezultat, stadion, skupina):
+    '''
+    V bazo doda tekmo  
+    '''
     stadion_id = najdi_stadion_id(conn, stadion)
-    sezona = "20"+str(sezona)+"/"+str(sezona+1)
+    sezona = "20"+str(sezona)+"/"+str(int(sezona)+1)
     sql = '''
         INSERT INTO tekma (sezona,datum,rezultat,stadion, tip)
 
@@ -129,8 +156,11 @@ def dodaj_tekmo(conn, sezona, datum, rezultat, stadion, skupina):
         conn.execute(sql, parametri)
     
 def dodaj_igra_klub(conn, sezona, datum, klub, tip, stadion):
+    '''
+    V tabelo igra_klub doda tekma,sezona,klub,tip  
+    '''
     tekma_id = najdi_tekma_id(conn, sezona, datum, stadion)
-    sezona = "20"+str(sezona)+"/"+str(sezona+1)
+    sezona = "20"+str(sezona)+"/"+str(int(sezona)+1)
     sql = '''
         INSERT INTO igra_klub (tekma,sezona,klub,tip)
 
@@ -178,6 +208,9 @@ def dodaj_igra_klub(conn, sezona, datum, klub, tip, stadion):
 #     conn.execute(sql, parametri)
     
 def dodaj_zadetek(conn, klub, igralec, minuta, sezona, datum, stadion):
+    '''
+    V tabelo zadetkov doda zadetek
+    '''
     tekma_id = najdi_tekma_id(conn, sezona, datum, stadion)
     klub_id = najdi_klub_id(conn, klub)
     igralec_id = najdi_igralec_id(conn, igralec)
