@@ -3,7 +3,7 @@ import model
 from dodajanje import *
 import sqlite3 as dbapi
 import difflib
-conn = dbapi.connect('finalna1.db')
+conn = dbapi.connect('finalna.db')
 
 
 #TO DELA
