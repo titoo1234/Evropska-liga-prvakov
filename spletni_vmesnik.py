@@ -274,5 +274,5 @@ def dodajanje_tekme():
 #     print(datum)
     bottle.redirect("/uredi")
 
-bottle.run(debug=True)
+bottle.run(host='localhost', port=8080,  debug=True)
 
